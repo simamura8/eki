@@ -6,10 +6,6 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// 2. 実際に値を使ってみる
-const apiKey = process.env.GEMINI_API_KEY;
-// テスト（正しく読み込めているか確認）
-console.log("読み込んだAPIキーはこれです:", apiKey);
 
 // Gemini APIのセットアップ
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
@@ -39,7 +35,7 @@ app.get('/', (req, res) => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>やさしい易経占い</title>
+    <title>やさしい易占い</title>
     <style>
         :root {
             --primary-color: #FD7E00;
@@ -305,7 +301,7 @@ app.post('/chat', async (req, res) => {
 
   try {
     const lengthInstruction = history.length === 0 
-        ? "必ず700文字以内で、得卦の解説を含めて丁寧に回答してください。" 
+        ? "500文字以内で、得卦の解説を含めて丁寧に回答してください。" 
         : "文脈に合わせて最適な長さで回答してください。";
     let prompt = systemPromptBase + "\n\n";
     prompt += `相談者の名前: ${name}\n`;
