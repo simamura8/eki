@@ -6,6 +6,11 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// 2. 実際に値を使ってみる
+const apiKey = process.env.GEMINI_API_KEY;
+// テスト（正しく読み込めているか確認）
+console.log("読み込んだAPIキーはこれです:", apiKey);
+
 // Gemini APIのセットアップ
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 // 利用可能な最新の2.5-flashモデルを指定
@@ -37,8 +42,8 @@ app.get('/', (req, res) => {
     <title>やさしい易経占い</title>
     <style>
         :root {
-            --primary-color: #d35400;
-            --accent-color: #e67e22;
+            --primary-color: #FD7E00;
+            --accent-color: #ff9800;
             --ai-bg: #fff4e6;
             --ai-border: #f39c12;
             --user-bg: #ffffff;
@@ -92,7 +97,7 @@ app.get('/', (req, res) => {
 
         .label { font-size: 11px; color: var(--label-color); font-weight: bold; display: block; margin-bottom: 5px; }
         .hex-name { font-size: 22px; font-weight: bold; margin-bottom: 8px; color: var(--primary-color); }
-        .yao-text { font-size: 16px; font-weight: bold; border-bottom: 1px solid rgba(211, 84, 0, 0.1); padding-bottom: 8px; margin-bottom: 10px; }
+        .yao-text { font-size: 16px; font-weight: bold; border-bottom: 1px solid rgba(253, 126, 0, 0.1); padding-bottom: 8px; margin-bottom: 10px; }
         .meaning { font-size: 14px; }
 
         footer { padding: 15px; background: #fff; border-top: 1px solid #fef3e2; }
@@ -103,7 +108,7 @@ app.get('/', (req, res) => {
             width: 44px; height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center;
             transition: 0.3s;
         }
-        .send-btn:hover { background: var(--accent-color); }
+        .send-btn:hover { background: var(--accent-color); opacity: 0.9; }
         .send-btn svg { width: 18px; height: 18px; fill: white; transform: rotate(45deg); margin-left: -2px; }
 
         .overlay-view {
@@ -115,9 +120,9 @@ app.get('/', (req, res) => {
         .btn-large {
             padding: 16px 60px; font-size: 18px; font-weight: bold; color: white;
             background: var(--primary-color); border: none; border-radius: 50px; cursor: pointer;
-            box-shadow: 0 8px 20px rgba(211, 84, 0, 0.2); transition: 0.3s; margin-top: 20px;
+            box-shadow: 0 8px 20px rgba(253, 126, 0, 0.2); transition: 0.3s; margin-top: 20px;
         }
-        .btn-large:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(211, 84, 0, 0.3); }
+        .btn-large:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(253, 126, 0, 0.3); opacity: 0.9; }
 
         .loading-text { color: var(--primary-color); font-weight: bold; font-size: 16px; animation: blink 1.2s infinite; margin-top: 20px; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
@@ -129,7 +134,7 @@ app.get('/', (req, res) => {
 
         .instruction-box {
             background: #fff; padding: 25px; border-radius: 24px; border: 1px solid #ffe0b2;
-            max-width: 500px; width: 100%; margin-bottom: 20px;
+            max-width: 650px; width: 100%; margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
         .input-field {
@@ -141,12 +146,12 @@ app.get('/', (req, res) => {
 </head>
 <body>
     <div id="start-view" class="overlay-view">
-        <h1 style="font-size: 28px; margin-bottom: 20px;">易経占い</h1>
+        <h1 style="font-size: 32px; margin-bottom: 25px;">易経占い</h1>
         <div class="instruction-box">
             <span class="label" style="text-align: left;">お名前</span>
             <input type="text" id="user-name" class="input-field" placeholder="（任意）" maxlength="20">
             <span class="label" style="text-align: left;">聞きたいこと。</span>
-            <textarea id="concern-input" class="input-field" style="height: 110px; resize: none;" 
+            <textarea id="concern-input" class="input-field" style="height: 200px; resize: none;" 
                 placeholder="例：彼氏との関係がうまくいっていません。今後関係はどうなっていくか教えてください。"></textarea>
             <p class="mindset-text">
                 心を静かにして、問いを心に浮かべてください。<br>
